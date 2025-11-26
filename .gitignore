@@ -1,0 +1,146 @@
+# .gitignore for MAUI / .NET / Visual Studio / Rider projects
+# Generated to ignore common build artifacts, user-specific files and SDKs
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+
+# Rider / IntelliJ
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+
+# Build outputs
+**/bin/
+**/obj/
+
+# Publish output
+publish/
+*/publish/
+
+# NuGet
+packages/
+*.nupkg
+.project.lock.json
+.project.nuget.cache
+*.nuget.*
+packages.lock.json
+
+# dotnet
+*.dotnet
+artifacts/
+
+# Logs
+*.log
+logs/
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+coverage/
+
+# Rider, VS and Resharper caches
+_ReSharper*/
+*.DotSettings.user
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# User secrets and environment
+secrets.json
+.env
+.env.*
+local.settings.json
+**/appsettings.Development.json
+**/appsettings.Local.json
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Xamarin / MAUI / Android
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+*.so
+*.aar
+*.keystore
+local.properties
+.gradle/
+
+# Android build artifacts
+**/obj/**/android
+**/obj/**/monodroid
+**/bin/**/android
+
+# iOS
+*.app
+*.ipa
+*.dSYM
+*.mobileprovision
+*.plist
+*.p12
+
+# Mac
+*.app
+
+# Certificates and keys
+*.pfx
+*.key
+*.pem
+
+# Rider specific caches
+.idea/
+*.iml
+
+# SDKs and large local toolchains (if you keep SDKs locally, don't commit them)
+/SKDs/
+/SDKs/
+/jdk/
+/android-sdk/
+
+# Unity (if present)
+[Ll]ibrary/
+Temp/
+Obj/
+Build/
+Builds/
+
+# Coverage & profiling
+*.lcov
+coverage/
+
+# Misc
+*.cache
+*.bak
+*.tmp
+*.temp
+
+# Lock files (optional)
+# npm/yarn
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Ignore Rider/IDE personal settings
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Git metadata that shouldn't be in repo
+*.patch
+
+# End of file
