@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:TDM.UI.Maui.ViewModels"
+             xmlns:enums="clr-namespace:TDM.Api.Enum;assembly=TDM.Api.Enum"
+             xmlns:contracts="clr-namespace:TDM.Api.Contracts.TodoItems;assembly=TDM.Api.Contracts"
+             x:Class="TDM.UI.Maui.Views.TodoListPage"
+             x:Name="RootPage"
+             x:DataType="viewModels:TodoListViewModel"
+             Title="Задачи"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkBackground2}}">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*" Padding="16" RowSpacing="8">
+        <!-- Search Bar -->
+        <SearchBar Grid.Row="0"
+                   Placeholder="Поиск задач..."
+                   Text="{Binding SearchText}"
+                   SearchCommand="{Binding SearchTodoItemsCommand}"
+                   BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkBackground3}}"
+                   Margin="0,0,0,8"/>
+
+        <!-- Filter Buttons -->
+        <ScrollView Grid.Row="1" 
+                    Orientation="Horizontal" 
+                    HorizontalScrollBarVisibility="Never" 
+                    InputTransparent="False"
+                    Margin="0,0,0,4">
+            <HorizontalStackLayout Spacing="8" InputTransparent="False">
+                    
+                    <Button Command="{Binding ClearFiltersCommand}"
+                            Text="Сброс"
+                            BackgroundColor="Transparent"
+                            TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"
+                            FontAttributes="None"
+                            BorderWidth="0"
+                            Padding="6,0"
+                            Margin="0,6,8,0"
+                            HeightRequest="36"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Start"
+                            FontSize="14"/>
+
+                     <!-- Picker для фильтра по статусу -->
+                     <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkBackground3}}"
+                            Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource DarkBorder1}}"
+                            StrokeThickness="1"
+                            Padding="8,4"
+                            VerticalOptions="Center"
+                            WidthRequest="140">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="6" />
+                        </Border.StrokeShape>
+                        <Picker Title="Статус"
+                                SelectedItem="{Binding FilterStatus, Mode=TwoWay}"
+                                FontSize="12"
+                                BackgroundColor="Transparent"
+                                TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"
+                                HorizontalOptions="FillAndExpand">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type enums:TodoStatus}">
+                                    <enums:TodoStatus>NotStarted</enums:TodoStatus>
+                                    <enums:TodoStatus>InProgress</enums:TodoStatus>
+                                    <enums:TodoStatus>Completed</enums:TodoStatus>
+                                    <enums:TodoStatus>Cancelled</enums:TodoStatus>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                     </Border>
+
+                    <!-- Picker для фильтра по приоритету -->
+                     <Border BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkBackground3}}"
+                            Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource DarkBorder1}}"
+                            StrokeThickness="1"
+                            Padding="8,4"
+                            VerticalOptions="Center"
+                            WidthRequest="140">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="6" />
+                        </Border.StrokeShape>
+                        <Picker Title="Приоритет"
+                                SelectedItem="{Binding FilterPriority, Mode=TwoWay}"
+                                FontSize="12"
+                                BackgroundColor="Transparent"
+                                TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"
+                                HorizontalOptions="FillAndExpand">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type enums:Priority}">
+                                    <enums:Priority>Low</enums:Priority>
+                                    <enums:Priority>Medium</enums:Priority>
+                                    <enums:Priority>High</enums:Priority>
+                                    <enums:Priority>Urgent</enums:Priority>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                     </Border>
+                 </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- Add Task Button -->
+        <Button Grid.Row="2"
+                Text="+ Добавить задачу"
+                Command="{Binding NavigateToCreateTodoItemCommand}"
+                HorizontalOptions="Fill"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                FontAttributes="Bold"
+                CornerRadius="12"
+                HeightRequest="50"
+                Margin="0,4,0,8"/>
+
+        <!-- Todo Items List with RefreshView -->
+        <RefreshView Grid.Row="3"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding RefreshCommand}">
+            
+            <CollectionView ItemsSource="{Binding TodoItems}"
+                            SelectionMode="None">
+                
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="40"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 Spacing="12">
+                        <Label Text="📝"
+                               FontSize="64"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Нет задач"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource DarkForeground3}}"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Нажмите 'Добавить задачу' чтобы создать первую задачу"
+                               FontSize="14"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkForeground4}}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               Margin="0,8,0,0"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="contracts:TodoItemResponse">
+                        <SwipeView>
+                            <!-- Swipe Actions -->
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Удалить"
+                                               BackgroundColor="Red"
+                                               Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.DeleteTodoItemCommand}"
+                                               CommandParameter="{Binding Id}"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+
+                            <!-- Task Item -->
+                            <Border Margin="0,0,0,12"
+                                    Padding="16"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkBackground4}}"
+                                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource DarkBorder1}}"
+                                    StrokeThickness="1">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12"/>
+                                </Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.NavigateToTodoItemDetailsCommand}"
+                                        CommandParameter="{Binding .}"/>
+
+                                </Border.GestureRecognizers>
+
+                                <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto" RowSpacing="8">
+                                    <!-- Title -->
+                                    <Label Grid.Row="0" Grid.Column="0"
+                                           Text="{Binding Title}"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="1"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkForeground1}}"/>
+
+                                    <!-- Priority Badge -->
+                                    <Border Grid.Row="0" Grid.Column="1"
+                                            Padding="8,4"
+                                            VerticalOptions="Start"
+                                            BackgroundColor="{Binding Priority, Converter={StaticResource PriorityToColorConverter}}">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="12"/>
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding Priority, Converter={StaticResource PriorityToTextConverter}}"
+                                               TextColor="White"
+                                               FontSize="10"
+                                               FontAttributes="Bold"/>
+                                    </Border>
+
+                                    <!-- Details -->
+                                    <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                           Text="{Binding Details}"
+                                           FontSize="14"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="2"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource DarkForeground2}}"
+                                           IsVisible="{Binding Details, Converter={StaticResource IsNotNullConverter}}"/>
+
+                                    <!-- Contact Info (if exists) -->
+                                    <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+                                                          Spacing="8"
+                                                          IsVisible="{Binding ContactId, Converter={StaticResource IsNotNullConverter}}">
+                                        <Label Text="👤"
+                                               FontSize="14"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="{Binding ContactName}"
+                                               FontSize="12"
+                                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
+                                               VerticalOptions="Center"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="1"/>
+                                    </HorizontalStackLayout>
+
+                                    <!-- Status and Due Date -->
+                                    <HorizontalStackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Spacing="12">
+                                        <Border Padding="6,3"
+                                                BackgroundColor="{Binding Status, Converter={StaticResource TodoStatusToColorConverter}}">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="10"/>
+                                            </Border.StrokeShape>
+                                            <Label Text="{Binding Status, Converter={StaticResource TodoStatusToTextConverter}}"
+                                                   FontSize="11"
+                                                   TextColor="White"
+                                                   FontAttributes="Bold"/>
+                                        </Border>
+                                        <Label Text="{Binding DueDate, Converter={StaticResource UnixTimestampToDateConverter}, StringFormat='📅 {0}'}"
+                                               FontSize="12"
+                                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
+                                               VerticalOptions="Center"
+                                               IsVisible="{Binding DueDate, Converter={StaticResource IsNotNullConverter}}"/>
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </Border>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- Loading Overlay -->
+        <Grid Grid.Row="0" Grid.RowSpan="4"
+              IsVisible="{Binding IsLoading}"
+              BackgroundColor="#80000000">
+            <VerticalStackLayout Spacing="12"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center">
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                   Color="{StaticResource Primary}"
+                                   WidthRequest="40"
+                                   HeightRequest="40"/>
+                <Label Text="{Binding LoadingText}"
+                       HorizontalOptions="Center"
+                       TextColor="White"
+                       FontSize="14"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

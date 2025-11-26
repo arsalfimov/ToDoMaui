@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Light Theme Colors -->
+    <Color x:Key="Primary">#512BD4</Color>
+    <Color x:Key="PrimaryLight">#ac99ea</Color>
+    <Color x:Key="Secondary">#DFD8F7</Color>
+    <Color x:Key="Tertiary">#2B0B98</Color>
+
+    <!-- Dark Theme Colors (из Printstar) -->
+    <Color x:Key="PrimaryDark">#336EEE</Color>
+    <Color x:Key="PrimaryDarkText">#FFFFFF</Color>
+    <Color x:Key="SecondaryDarkText">#CED0D6</Color>
+    
+    <!-- Printstar Dark Backgrounds -->
+    <Color x:Key="DarkBackground1">#303030</Color>
+    <Color x:Key="DarkBackground2">#2A2A2A</Color>
+    <Color x:Key="DarkBackground3">#393939</Color>
+    <Color x:Key="DarkBackground4">#424242</Color>
+    
+    <!-- Printstar Dark Foregrounds -->
+    <Color x:Key="DarkForeground1">#FFFFFF</Color>
+    <Color x:Key="DarkForeground2">#CED0D6</Color>
+    <Color x:Key="DarkForeground3">#D3D3D3</Color>
+    <Color x:Key="DarkForeground4">#76787C</Color>
+    
+    <!-- Printstar Dark Borders -->
+    <Color x:Key="DarkBorder1">#3F3F46</Color>
+    <Color x:Key="DarkBorder2">#4E4E55</Color>
+    <Color x:Key="DarkHover">#505458</Color>
+
+    <!-- Accent Colors (из Printstar) -->
+    <Color x:Key="AccentBlue">#336EEE</Color>
+    <Color x:Key="AccentInfo">#549AFF</Color>
+    <Color x:Key="AccentSuccess">#228B22</Color>
+    <Color x:Key="AccentDanger">#DB3040</Color>
+    <Color x:Key="AccentWarning">#B65400</Color>
+
+    <!-- Standard Colors -->
+    <Color x:Key="White">White</Color>
+    <Color x:Key="Black">Black</Color>
+    <Color x:Key="Magenta">#D600AA</Color>
+    <Color x:Key="MidnightBlue">#190649</Color>
+    <Color x:Key="OffBlack">#1f1f1f</Color>
+
+    <!-- Gray Scale (Light Theme) -->
+    <Color x:Key="Gray100">#F5F5F5</Color>
+    <Color x:Key="Gray200">#E0E0E0</Color>
+    <Color x:Key="Gray300">#BDBDBD</Color>
+    <Color x:Key="Gray400">#9E9E9E</Color>
+    <Color x:Key="Gray500">#757575</Color>
+    <Color x:Key="Gray600">#616161</Color>
+    <Color x:Key="Gray900">#212121</Color>
+    <Color x:Key="Gray950">#141414</Color>
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
+    <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>
+    <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>
+    <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}"/>
+    <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}"/>
+
+    <SolidColorBrush x:Key="Gray100Brush" Color="{StaticResource Gray100}"/>
+    <SolidColorBrush x:Key="Gray200Brush" Color="{StaticResource Gray200}"/>
+    <SolidColorBrush x:Key="Gray300Brush" Color="{StaticResource Gray300}"/>
+    <SolidColorBrush x:Key="Gray400Brush" Color="{StaticResource Gray400}"/>
+    <SolidColorBrush x:Key="Gray500Brush" Color="{StaticResource Gray500}"/>
+    <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}"/>
+    <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
+    <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
+</ResourceDictionary>

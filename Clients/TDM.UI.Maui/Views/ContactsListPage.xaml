@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:TDM.UI.Maui.ViewModels"
+             xmlns:contracts="clr-namespace:TDM.Api.Contracts.Contacts;assembly=TDM.Api.Contracts"
+             x:Class="TDM.UI.Maui.Views.ContactsListPage"
+             x:DataType="viewModels:ContactsListViewModel"
+             Title="Контакты"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkBackground2}}">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="16">
+        
+        <!-- Search Bar -->
+        <SearchBar Grid.Row="0"
+                   Placeholder="Поиск по имени..."
+                   Text="{Binding SearchText}"
+                   SearchCommand="{Binding SearchContactsCommand}"
+                   BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkBackground3}}"
+                   Margin="0,0,0,8"/>
+
+        <!-- Add Contact Button -->
+        <Button Grid.Row="1"
+                Text="+ Добавить контакт"
+                Command="{Binding NavigateToCreateContactCommand}"
+                HorizontalOptions="Fill"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                FontAttributes="Bold"
+                CornerRadius="12"
+                HeightRequest="50"
+                Margin="0,0,0,16"/>
+
+        <!-- Contacts List with RefreshView -->
+        <RefreshView Grid.Row="2"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding RefreshCommand}">
+            
+            <CollectionView ItemsSource="{Binding Contacts}"
+                            SelectionMode="None">
+                
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="40"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 Spacing="12">
+                        <Label Text="📇"
+                               FontSize="64"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Нет контактов"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource DarkForeground3}}"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Нажмите 'Добавить контакт' чтобы создать первый контакт"
+                               FontSize="14"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkForeground4}}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               Margin="0,8,0,0"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="contracts:ContactResponse">
+                        <SwipeView>
+                            <!-- Swipe Actions -->
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Удалить"
+                                               BackgroundColor="Red"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:ContactsListViewModel}}, Path=DeleteContactCommand}"
+                                               CommandParameter="{Binding Id}"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+
+                            <!-- Contact Item -->
+                            <Border Margin="0,0,0,12"
+                                    Padding="16"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource DarkBackground4}}"
+                                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource DarkBorder1}}"
+                                    StrokeThickness="1">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12"/>
+                                </Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:ContactsListViewModel}}, Path=NavigateToContactDetailsCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                </Border.GestureRecognizers>
+
+                                <Grid ColumnDefinitions="60,*,Auto" ColumnSpacing="12" RowDefinitions="Auto,Auto,Auto">
+                                    
+                                    <!-- Avatar Circle -->
+                                    <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"
+                                            WidthRequest="50"
+                                            HeightRequest="50"
+                                            BackgroundColor="{Binding ., Converter={StaticResource NameToColorConverter}}"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Start"
+                                            Margin="0">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="25"/>
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding ., Converter={StaticResource NameToInitialsConverter}}"
+                                               FontSize="20"
+                                               FontAttributes="Bold"
+                                               TextColor="White"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"/>
+                                    </Border>
+                                    
+                                    <!-- Name -->
+                                    <Label Grid.Row="0" Grid.Column="1"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkForeground1}}"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="1">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding FirstName}"/>
+                                                <Span Text=" "/>
+                                                <Span Text="{Binding LastName}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <!-- Email -->
+                                    <Label Grid.Row="1" Grid.Column="1"
+                                           Text="{Binding Email}"
+                                           FontSize="14"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkForeground2}}"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="1"
+                                           Margin="0,4,0,0"/>
+
+                                    <!-- Phone -->
+                                    <Label Grid.Row="2" Grid.Column="1"
+                                           Text="{Binding Phone}"
+                                           FontSize="14"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource DarkForeground2}}"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="1"
+                                           Margin="0,4,0,0"/>
+
+                                    <!-- Chevron -->
+                                    <Label Grid.Row="0" Grid.Column="2" Grid.RowSpan="3"
+                                           Text="›"
+                                           FontSize="28"
+                                           TextColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource DarkForeground4}}"
+                                           VerticalOptions="Center"
+                                           Margin="8,0,0,0"/>
+                                </Grid>
+                            </Border>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- Loading Overlay -->
+        <Grid Grid.Row="0" Grid.RowSpan="3"
+              IsVisible="{Binding IsLoading}"
+              BackgroundColor="#80000000">
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               Color="White"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"/>
+        </Grid>
+    </Grid>
+
+</ContentPage>

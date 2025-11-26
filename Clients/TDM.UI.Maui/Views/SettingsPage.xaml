@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:TDM.UI.Maui.ViewModels"
+             x:Class="TDM.UI.Maui.Views.SettingsPage"
+             x:DataType="viewModels:SettingsViewModel"
+             Title="Настройки"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkBackground2}}">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="20">
+            <!-- Theme Section -->
+            <Label Text="Тема приложения" 
+                   FontSize="20" 
+                   FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkForeground1}}"
+                   Margin="0,8,0,0"/>
+
+            <!-- Theme Selector -->
+            <Border Padding="16" 
+                    Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource DarkBorder1}}"
+                    StrokeThickness="1"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="16">
+                    <!-- Dark Theme Option -->
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
+                        <Border Grid.Column="0"
+                                WidthRequest="48"
+                                HeightRequest="48"
+                                BackgroundColor="{StaticResource DarkBackground1}"
+                                Stroke="{StaticResource DarkBorder1}"
+                                StrokeThickness="2">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Label Text="🌙" 
+                                   FontSize="24"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="4">
+                            <Label Text="Тёмная тема" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkForeground1}}"/>
+                            <Label Text="Приятная для глаз в темноте" 
+                                   FontSize="12" 
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource DarkForeground2}}"/>
+                        </VerticalStackLayout>
+
+                        <RadioButton Grid.Column="2"
+                                     IsChecked="{Binding IsDarkTheme}"
+                                     GroupName="Theme"
+                                     VerticalOptions="Center"
+                                     CheckedChanged="OnDarkThemeChecked"/>
+                    </Grid>
+
+                    <BoxView HeightRequest="1" 
+                             Color="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource DarkBorder1}}"/>
+
+                    <!-- Light Theme Option -->
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
+                        <Border Grid.Column="0"
+                                WidthRequest="48"
+                                HeightRequest="48"
+                                BackgroundColor="{StaticResource White}"
+                                Stroke="{StaticResource Gray300}"
+                                StrokeThickness="2">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Label Text="☀️" 
+                                   FontSize="24"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="4">
+                            <Label Text="Светлая тема" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkForeground1}}"/>
+                            <Label Text="Классический светлый интерфейс" 
+                                   FontSize="12" 
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource DarkForeground2}}"/>
+                        </VerticalStackLayout>
+
+                        <RadioButton Grid.Column="2"
+                                     IsChecked="{Binding IsDarkTheme, Converter={StaticResource InverseBoolConverter}}"
+                                     GroupName="Theme"
+                                     VerticalOptions="Center"
+                                     CheckedChanged="OnLightThemeChecked"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+
+            <!-- Info Section -->
+            <Border Padding="16" 
+                    Stroke="{AppThemeBinding Light={StaticResource AccentInfo}, Dark={StaticResource AccentBlue}}"
+                    StrokeThickness="1"
+                    BackgroundColor="{AppThemeBinding Light=#E3F2FD, Dark=#1A237E}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="ℹ️ Информация" 
+                           FontSize="14" 
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource AccentInfo}, Dark={StaticResource AccentInfo}}"/>
+                    <Label Text="Выбранная тема применяется ко всему приложению и сохраняется между сеансами." 
+                           FontSize="12" 
+                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource DarkForeground2}}"/>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

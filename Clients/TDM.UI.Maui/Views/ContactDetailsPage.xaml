@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:TDM.UI.Maui.ViewModels"
+             x:Class="TDM.UI.Maui.Views.ContactDetailsPage"
+             x:DataType="viewModels:ContactDetailsViewModel"
+             Title="Детали контакта"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkBackground2}}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Редактировать"
+                     Command="{Binding ToggleEditModeCommand}"/>
+        <ToolbarItem Text="Удалить"
+                     Command="{Binding DeleteContactCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="20">
+            <!-- Avatar Header -->
+            <VerticalStackLayout Spacing="12" Padding="0,20,0,20" HorizontalOptions="Center">
+                <Border WidthRequest="100"
+                        HeightRequest="100"
+                        BackgroundColor="{Binding Contact, Converter={StaticResource NameToColorConverter}}"
+                        HorizontalOptions="Center"
+                        Shadow="{Shadow Brush=Black, Offset='0,4', Radius=8, Opacity=0.3}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="50"/>
+                    </Border.StrokeShape>
+                    <Label FontSize="40"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding FirstName, Converter={StaticResource FirstLetterConverter}}"/>
+                                <Span Text="{Binding LastName, Converter={StaticResource FirstLetterConverter}}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </Border>
+                <Label FontSize="24"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{Binding FirstName}"/>
+                            <Span Text=" "/>
+                            <Span Text="{Binding LastName}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </VerticalStackLayout>
+
+            <!-- FirstName (Edit Mode) -->
+            <Border Padding="0" 
+                    IsVisible="{Binding IsEditMode}"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                    StrokeThickness="1"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Padding="16" Spacing="6">
+                    <Label Text="Имя *" 
+                           FontSize="12" 
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                    <Entry Text="{Binding FirstName}"
+                           FontSize="16"
+                           BackgroundColor="Transparent"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- LastName (Edit Mode) -->
+            <Border Padding="0" 
+                    IsVisible="{Binding IsEditMode}"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                    StrokeThickness="1"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Padding="16" Spacing="6">
+                    <Label Text="Фамилия *" 
+                           FontSize="12" 
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                    <Entry Text="{Binding LastName}"
+                           FontSize="16"
+                           BackgroundColor="Transparent"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Phone -->
+            <Border Padding="0" 
+                    Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                    StrokeThickness="1"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Padding="16" Spacing="6">
+                    <Label Text="📱 Телефон" 
+                           FontSize="12" 
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                    <Entry Text="{Binding Phone}"
+                           Keyboard="Telephone"
+                           FontSize="16"
+                           IsReadOnly="{Binding IsEditMode, Converter={StaticResource InverseBoolConverter}}"
+                           BackgroundColor="Transparent"/>
+                </VerticalStackLayout>
+            </Border>
+            <Label Text="{Binding PhoneError}"
+                   IsVisible="{Binding PhoneError, Converter={StaticResource IsNotNullConverter}}"
+                   TextColor="{StaticResource AccentDanger}"
+                   FontSize="12"
+                   Margin="4,0,0,0"/>
+
+            <!-- Email -->
+            <Border Padding="0" 
+                    Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                    StrokeThickness="1"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Padding="16" Spacing="6">
+                    <Label Text="📧 Email" 
+                           FontSize="12" 
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                    <Entry Text="{Binding Email}"
+                           Keyboard="Email"
+                           FontSize="16"
+                           IsReadOnly="{Binding IsEditMode, Converter={StaticResource InverseBoolConverter}}"
+                           BackgroundColor="Transparent"/>
+                </VerticalStackLayout>
+            </Border>
+            <Label Text="{Binding EmailError}"
+                   IsVisible="{Binding EmailError, Converter={StaticResource IsNotNullConverter}}"
+                   TextColor="{StaticResource AccentDanger}"
+                   FontSize="12"
+                   Margin="4,0,0,0"/>
+
+            <!-- Address -->
+            <Border Padding="0" 
+                    Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                    StrokeThickness="1"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Padding="16" Spacing="6">
+                    <Label Text="📍 Адрес" 
+                           FontSize="12" 
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                    <Editor Text="{Binding Address}"
+                            HeightRequest="80"
+                            FontSize="16"
+                            IsReadOnly="{Binding IsEditMode, Converter={StaticResource InverseBoolConverter}}"
+                            BackgroundColor="Transparent"/>
+                </VerticalStackLayout>
+            </Border>
+            <!-- Description -->
+            <Border Padding="0" 
+                    Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                    StrokeThickness="1"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Padding="16" Spacing="6">
+                    <Label Text="📝 Описание" 
+                           FontSize="12" 
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                    <Editor Text="{Binding Description}"
+                            HeightRequest="80"
+                            FontSize="16"
+                            IsReadOnly="{Binding IsEditMode, Converter={StaticResource InverseBoolConverter}}"
+                            BackgroundColor="Transparent"/>
+                </VerticalStackLayout>
+            </Border>
+            <!-- Error Message -->
+            <Border IsVisible="{Binding HasError}"
+                    Padding="12"
+                    BackgroundColor="#FFEBEE"
+                    Stroke="#F44336"
+                    StrokeThickness="1">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="#C62828"
+                       FontSize="14"/>
+            </Border>
+            <!-- Edit Mode Buttons -->
+            <Grid ColumnDefinitions="*,*" 
+                  ColumnSpacing="12" 
+                  Margin="0,8,0,0"
+                  IsVisible="{Binding IsEditMode}">
+                <Button Grid.Column="0"
+                        Text="Отмена"
+                        Command="{Binding CancelEditCommand}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                        TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"
+                        CornerRadius="12"
+                        HeightRequest="50"/>
+                <Button Grid.Column="1"
+                        Text="Сохранить"
+                        Command="{Binding SaveContactCommand}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="12"
+                        HeightRequest="50"/>
+            </Grid>
+            <!-- Loading Indicator -->
+            <StackLayout IsVisible="{Binding IsLoading}"
+                         Spacing="12"
+                         Padding="20"
+                         HorizontalOptions="Center">
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                   Color="{StaticResource Primary}"
+                                   WidthRequest="40"
+                                   HeightRequest="40"/>
+                <Label Text="{Binding LoadingText}"
+                       HorizontalOptions="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource DarkForeground2}}"
+                       FontSize="14"/>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

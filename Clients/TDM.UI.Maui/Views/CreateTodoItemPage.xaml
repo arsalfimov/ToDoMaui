@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:TDM.UI.Maui.ViewModels"
+             xmlns:enums="clr-namespace:TDM.Api.Enum;assembly=TDM.Api.Enum"
+             x:Class="TDM.UI.Maui.Views.CreateTodoItemPage"
+             x:DataType="viewModels:CreateTodoItemViewModel"
+             Title="Новая задача"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkBackground2}}">
+    
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="16" Spacing="20">
+                <!-- Title -->
+                <Border Padding="0" Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" StrokeThickness="1" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                    <VerticalStackLayout Padding="12" Spacing="4">
+                        <Label Text="Заголовок *" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                        <Entry Text="{Binding Title}" Placeholder="Введите название задачи" BackgroundColor="Transparent"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Label Text="{Binding TitleError}" IsVisible="{Binding TitleError, Converter={StaticResource IsNotNullConverter}}" TextColor="{StaticResource AccentDanger}" FontSize="12" Margin="4,0,0,0"/>
+                
+                <!-- Details -->
+                <Border Padding="0" Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" StrokeThickness="1" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                    <VerticalStackLayout Padding="12" Spacing="4">
+                        <Label Text="Детали" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                        <Editor Text="{Binding Details}" Placeholder="Введите описание задачи" HeightRequest="100" BackgroundColor="Transparent"/>
+                    </VerticalStackLayout>
+                </Border>
+                
+                <!-- Priority -->
+                <Border Padding="0" Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" StrokeThickness="1" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                    <VerticalStackLayout Padding="12" Spacing="4">
+                        <Label Text="Приоритет" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                        <Picker SelectedItem="{Binding Priority}" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkForeground1}}">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type enums:Priority}">
+                                    <enums:Priority>Low</enums:Priority>
+                                    <enums:Priority>Medium</enums:Priority>
+                                    <enums:Priority>High</enums:Priority>
+                                    <enums:Priority>Urgent</enums:Priority>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+                </Border>
+                
+                <!-- Status -->
+                <Border Padding="0" Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" StrokeThickness="1" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                    <VerticalStackLayout Padding="12" Spacing="4">
+                        <Label Text="Статус" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                        <Picker SelectedItem="{Binding Status}" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkForeground1}}">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type enums:TodoStatus}">
+                                    <enums:TodoStatus>NotStarted</enums:TodoStatus>
+                                    <enums:TodoStatus>InProgress</enums:TodoStatus>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+                </Border>
+                
+                <!-- Contact Selection -->
+                <Border Padding="0" Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" StrokeThickness="1" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                    <VerticalStackLayout Padding="12" Spacing="4">
+                        <Label Text="Контакт (опционально)" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                        <Picker ItemsSource="{Binding Contacts}"
+                                SelectedItem="{Binding SelectedContact}"
+                                ItemDisplayBinding="{Binding ., Converter={StaticResource ContactToFullNameConverter}}"
+                                BackgroundColor="Transparent" 
+                                TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkForeground1}}"
+                                Title="Выберите контакт"/>
+                    </VerticalStackLayout>
+                </Border>
+                
+                <!-- Due Date -->
+                <Border Padding="0" Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" StrokeThickness="1" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                    <VerticalStackLayout Padding="12" Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                            <Label Grid.Column="0"
+                                   Text="Срок выполнения" 
+                                   FontSize="12" 
+                                   VerticalOptions="Center"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                            <Switch Grid.Column="1" 
+                                    IsToggled="{Binding HasDueDate}"
+                                    OnColor="{StaticResource Primary}"/>
+                        </Grid>
+                        <DatePicker Date="{Binding DueDate}" 
+                                    IsVisible="{Binding HasDueDate}"
+                                    BackgroundColor="Transparent" 
+                                    TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource DarkForeground1}}"/>
+                    </VerticalStackLayout>
+                </Border>
+                
+                <!-- Buttons -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,8,0,0" InputTransparent="False">
+                    <Button Grid.Column="0" 
+                            Text="Отмена" 
+                            Command="{Binding CancelCommand}" 
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" 
+                            TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" 
+                            CornerRadius="12" 
+                            InputTransparent="False"
+                            HeightRequest="50"/>
+                    <Button Grid.Column="1" 
+                            Text="Создать" 
+                            Command="{Binding CreateTodoItemCommand}" 
+                            BackgroundColor="{StaticResource Primary}" 
+                            TextColor="White" 
+                            FontAttributes="Bold" 
+                            CornerRadius="12" 
+                            InputTransparent="False"
+                            HeightRequest="50"/>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Loading Overlay -->
+        <Grid IsVisible="{Binding IsLoading}"
+              BackgroundColor="#80000000">
+            <VerticalStackLayout Spacing="12"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center">
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                   Color="{StaticResource Primary}"
+                                   WidthRequest="40"
+                                   HeightRequest="40"/>
+                <Label Text="{Binding LoadingText}"
+                       HorizontalOptions="Center"
+                       TextColor="White"
+                       FontSize="14"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>
