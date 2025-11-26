@@ -1,0 +1,29 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TDM.UI.Maui"
+             xmlns:converters="clr-namespace:TDM.UI.Maui.Converters"
+             x:Class="TDM.UI.Maui.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <!-- Converters -->
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
+            <converters:PriorityToTextConverter x:Key="PriorityToTextConverter" />
+            <converters:PriorityToColorConverter x:Key="PriorityToColorConverter" />
+            <converters:TodoStatusToTextConverter x:Key="TodoStatusToTextConverter" />
+            <converters:TodoStatusToColorConverter x:Key="TodoStatusToColorConverter" />
+            <converters:UnixTimestampToDateConverter x:Key="UnixTimestampToDateConverter" />
+            <converters:IsNotCompletedConverter x:Key="IsNotCompletedConverter" />
+            <converters:NameToInitialsConverter x:Key="NameToInitialsConverter" />
+            <converters:NameToColorConverter x:Key="NameToColorConverter" />
+            <converters:FirstLetterConverter x:Key="FirstLetterConverter" />
+            <converters:ContactToFullNameConverter x:Key="ContactToFullNameConverter" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

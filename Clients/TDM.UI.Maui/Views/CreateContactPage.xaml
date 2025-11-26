@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:TDM.UI.Maui.ViewModels"
+             x:Class="TDM.UI.Maui.Views.CreateContactPage"
+             x:DataType="viewModels:CreateContactViewModel"
+             Title="Новый контакт"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource DarkBackground2}}">
+    
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="16" Spacing="20">
+                <!-- FirstName -->
+                <Border Padding="0" 
+                        Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                        StrokeThickness="1"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Padding="12" Spacing="4">
+                        <Label Text="Имя *" 
+                               FontSize="12" 
+                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                        <Entry Text="{Binding FirstName}"
+                               Placeholder="Введите имя"
+                               BackgroundColor="Transparent"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Label Text="{Binding FirstNameError}"
+                       IsVisible="{Binding FirstNameError, Converter={StaticResource IsNotNullConverter}}"
+                       TextColor="{StaticResource AccentDanger}"
+                       FontSize="12"
+                       Margin="4,0,0,0"/>
+
+                <!-- LastName -->
+                <Border Padding="0" 
+                        Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                        StrokeThickness="1"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Padding="12" Spacing="4">
+                        <Label Text="Фамилия *" 
+                               FontSize="12" 
+                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                        <Entry Text="{Binding LastName}"
+                               Placeholder="Введите фамилию"
+                               BackgroundColor="Transparent"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Label Text="{Binding LastNameError}"
+                       IsVisible="{Binding LastNameError, Converter={StaticResource IsNotNullConverter}}"
+                       TextColor="{StaticResource AccentDanger}"
+                       FontSize="12"
+                       Margin="4,0,0,0"/>
+
+                <!-- Phone -->
+                <Border Padding="0" 
+                        Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                        StrokeThickness="1"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Padding="12" Spacing="4">
+                        <Label Text="Телефон" 
+                               FontSize="12" 
+                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                        <Entry Text="{Binding Phone}"
+                               Placeholder="+7 (xxx) / +375 (xx) xxx-xxx-xx"
+                               Keyboard="Telephone"
+                               BackgroundColor="Transparent"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Label Text="{Binding PhoneError}"
+                       IsVisible="{Binding PhoneError, Converter={StaticResource IsNotNullConverter}}"
+                       TextColor="{StaticResource AccentDanger}"
+                       FontSize="12"
+                       Margin="4,0,0,0"/>
+                       
+                <!-- Email -->
+                <Border Padding="0" 
+                        Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                        StrokeThickness="1"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Padding="12" Spacing="4">
+                        <Label Text="Email" 
+                               FontSize="12" 
+                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                        <Entry Text="{Binding Email}"
+                               Placeholder="example@email.com"
+                               Keyboard="Email"
+                               BackgroundColor="Transparent"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Label Text="{Binding EmailError}"
+                       IsVisible="{Binding EmailError, Converter={StaticResource IsNotNullConverter}}"
+                       TextColor="{StaticResource AccentDanger}"
+                       FontSize="12"
+                       Margin="4,0,0,0"/>
+                       
+                <!-- Address -->
+                <Border Padding="0" 
+                        Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                        StrokeThickness="1"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Padding="12" Spacing="4">
+                        <Label Text="Адрес" 
+                               FontSize="12" 
+                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                        <Editor Text="{Binding Address}"
+                                Placeholder="Введите адрес"
+                                HeightRequest="80"
+                                BackgroundColor="Transparent"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Label Text="{Binding AddressError}"
+                       IsVisible="{Binding AddressError, Converter={StaticResource IsNotNullConverter}}"
+                       TextColor="{StaticResource AccentDanger}"
+                       FontSize="12"
+                       Margin="4,0,0,0"/>
+                       
+                <!-- Description -->
+                <Border Padding="0" 
+                        Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                        StrokeThickness="1"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Padding="12" Spacing="4">
+                        <Label Text="Описание" 
+                               FontSize="12" 
+                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                        <Editor Text="{Binding Description}"
+                                Placeholder="Введите описание"
+                                HeightRequest="80"
+                                BackgroundColor="Transparent"/>
+                    </VerticalStackLayout>
+                </Border>
+                
+                <!-- Error Message -->
+                <Border IsVisible="{Binding HasError}"
+                        Padding="12"
+                        BackgroundColor="#FFEBEE"
+                        Stroke="#F44336"
+                        StrokeThickness="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8"/>
+                    </Border.StrokeShape>
+                    <Label Text="{Binding ErrorMessage}"
+                           TextColor="#C62828"
+                           FontSize="14"/>
+                </Border>
+                
+                <!-- Buttons -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,8,0,0" InputTransparent="False">
+                    <Button Grid.Column="0"
+                            Text="Отмена"
+                            Command="{Binding CancelCommand}"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                            TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"
+                            CornerRadius="12"
+                            InputTransparent="False"
+                            HeightRequest="50"/>
+                    <Button Grid.Column="1"
+                            Text="Создать"
+                            Command="{Binding CreateContactCommand}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            CornerRadius="12"
+                            InputTransparent="False"
+                            HeightRequest="50"/>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Loading Overlay -->
+        <Grid IsVisible="{Binding IsLoading}"
+              BackgroundColor="#80000000">
+            <VerticalStackLayout Spacing="12"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center">
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                   Color="{StaticResource Primary}"
+                                   WidthRequest="40"
+                                   HeightRequest="40"/>
+                <Label Text="{Binding LoadingText}"
+                       HorizontalOptions="Center"
+                       TextColor="White"
+                       FontSize="14"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

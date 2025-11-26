@@ -1,0 +1,41 @@
+name: todomaui-prod
+
+services:
+  api:
+    build:
+      context: ../../../
+      dockerfile: Server/Api/Src/TDM.Server.Api/Dockerfile
+    # Для production можно использовать образ из registry:
+    # image: ghcr.io/yourusername/todomaui-api:${API_IMAGE_TAG:-latest}
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ConnectionStrings__Postgres=${ConnectionStrings__Postgres}
+      - Security__ApiEndpointKey=${Security__ApiEndpointKey}
+    ports:
+      - "${API_PORT:-5001}:8080"
+    depends_on:
+      - postgres
+    networks:
+      - todomaui-network
+
+  postgres:
+    image: postgres:${POSTGRES_VERSION:-latest}
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - prod_db_data:/var/lib/postgresql
+    networks:
+      - todomaui-network
+
+networks:
+  todomaui-network:
+    driver: bridge
+
+volumes:
+  prod_db_data:

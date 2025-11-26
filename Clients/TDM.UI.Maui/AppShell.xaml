@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="TDM.UI.Maui.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:TDM.UI.Maui.Views"
+    Title="ToDo App"
+    FlyoutBackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+
+    <Shell.Resources>
+        <Style TargetType="TabBar">
+            <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" />
+            <Setter Property="Shell.TabBarForegroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+            <Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}" />
+            <Setter Property="Shell.TabBarTitleColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+        </Style>
+    </Shell.Resources>
+
+    <TabBar>
+        <ShellContent
+            Title="Контакты"
+            ContentTemplate="{DataTemplate views:ContactsListPage}"
+            Route="ContactsList">
+            <ShellContent.Icon>
+                <FontImageSource Glyph="👤" FontFamily="SegoeFluent" Size="24" Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+            </ShellContent.Icon>
+        </ShellContent>
+        
+        <ShellContent
+            Title="Задачи"
+            ContentTemplate="{DataTemplate views:TodoListPage}"
+            Route="TodoList">
+            <ShellContent.Icon>
+                <FontImageSource Glyph="✓" FontFamily="SegoeFluent" Size="24" Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+            </ShellContent.Icon>
+        </ShellContent>
+        
+        <ShellContent
+            Title="Настройки"
+            ContentTemplate="{DataTemplate views:SettingsPage}"
+            Route="Settings">
+            <ShellContent.Icon>
+                <FontImageSource Glyph="⚙" FontFamily="SegoeFluent" Size="24" Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+            </ShellContent.Icon>
+        </ShellContent>
+    </TabBar>
+
+</Shell>
